@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"ubiquitous-eye/packages/server"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	server.RunServer()
 }
