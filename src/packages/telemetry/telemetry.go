@@ -16,7 +16,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 )
 
-func setupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, err error) {
+func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, err error) {
 	var shutdownFuncs []func(context.Context) error
 
 	shutdown = func(ctx context.Context) error {
