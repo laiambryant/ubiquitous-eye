@@ -14,7 +14,6 @@ func RootController(w http.ResponseWriter, r *http.Request) {
 	user, repos, err := getData()
 	if err != nil {
 		http.Error(w, "Failed to load data", http.StatusInternalServerError)
-		return
 	}
 
 	data := struct {
@@ -48,18 +47,18 @@ func getUserData() (response.UserAPIResponse, error) {
 	var user response.UserAPIResponse
 	user_resp, err := http.Get(utils.GITHUB_USER_LBRYANT)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return response.UserAPIResponse{}, err
 	}
 	defer user_resp.Body.Close()
 	str, err := io.ReadAll(user_resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return response.UserAPIResponse{}, err
 	}
 	err = json.Unmarshal(str, &user)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return response.UserAPIResponse{}, err
 	}
 	return user, nil
@@ -69,17 +68,17 @@ func getUserRepoData() ([]response.UserRepoApiResponse, error) {
 	var usrRep []response.UserRepoApiResponse
 	user_project_resp, err := http.Get(utils.GITHUB_USER_LBRYANT + "/repos")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return []response.UserRepoApiResponse{}, err
 	}
 	str, err := io.ReadAll(user_project_resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return []response.UserRepoApiResponse{}, err
 	}
 	err = json.Unmarshal(str, &usrRep)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return []response.UserRepoApiResponse{}, err
 	}
 	return usrRep, nil

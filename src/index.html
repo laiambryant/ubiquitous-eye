@@ -216,7 +216,7 @@
 <body>
     <header>
         <h1>{{.User.Name}}</h1>
-        <div class="mode-switch" onclick="toggleMode()">
+        <div class="mode-switch" onKeyPress|onKeyDown|onKeyUp|onClick="toggleMode()">
             <span class="icon sun">☀️</span>
             <span class="icon moon">🌙</span>
         </div>
