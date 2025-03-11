@@ -14,6 +14,7 @@ func main() {
 	defer stop()
 
 	otelShutdown, err := telemetry.SetupOTelSDK(ctx)
+
 	if err != nil {
 		return
 	}

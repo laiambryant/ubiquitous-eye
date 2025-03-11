@@ -31,11 +31,19 @@ func RunServer() {
 
 func getHttpOtelHandler() http.Handler {
 	mux := http.NewServeMux()
+	handlerSetup(mux)
+	return getHandler(mux)
+}
+
+func handlerSetup(mux *http.ServeMux) {
 	handleFunc := func(pattern string, handlerFunc func(http.ResponseWriter, *http.Request)) {
 		handler := otelhttp.WithRouteTag(pattern, http.HandlerFunc(handlerFunc))
 		mux.Handle(pattern, handler)
 	}
 	handleFunc(controllers.ROOT, controllers.RootController)
+}
+
+func getHandler(mux *http.ServeMux) http.Handler {
 	handler := otelhttp.NewHandler(mux, "/")
 	return handler
 }

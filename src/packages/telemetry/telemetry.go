@@ -3,17 +3,22 @@ package telemetry
 import (
 	"context"
 	"errors"
+	"os"
 	"time"
 
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutlog"
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
-	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
 	"go.opentelemetry.io/otel/log/global"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/trace"
+)
+
+var (
+	otlpEndpoint string
 )
 
 func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, err error) {
@@ -34,8 +39,11 @@ func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, er
 
 	prop := newPropagator()
 	otel.SetTextMapPropagator(prop)
-
-	tracerProvider, err := newTracerProvider()
+	exporter, err := newExporter(ctx)
+	if err != nil {
+		handleErr(err)
+	}
+	tracerProvider, err := newTracerProvider(exporter)
 	if err != nil {
 		handleErr(err)
 		return
@@ -69,13 +77,7 @@ func newPropagator() propagation.TextMapPropagator {
 	)
 }
 
-func newTracerProvider() (*trace.TracerProvider, error) {
-	traceExporter, err := stdouttrace.New(
-		stdouttrace.WithPrettyPrint())
-	if err != nil {
-		return nil, err
-	}
-
+func newTracerProvider(traceExporter trace.SpanExporter) (*trace.TracerProvider, error) {
 	tracerProvider := trace.NewTracerProvider(
 		trace.WithBatcher(traceExporter,
 			trace.WithBatchTimeout(time.Second)),
@@ -106,4 +108,14 @@ func newLoggerProvider() (*log.LoggerProvider, error) {
 		log.WithProcessor(log.NewBatchProcessor(logExporter)),
 	)
 	return loggerProvider, nil
+}
+
+func newExporter(ctx context.Context) (trace.SpanExporter, error) {
+	otlpEndpoint = os.Getenv("OTLP_ENDPOINT")
+	if otlpEndpoint == "" {
+		return nil, errors.New("OTLP_ENDPOINT not set")
+	}
+	insecureOpt := otlptracehttp.WithInsecure()
+	endpointOpt := otlptracehttp.WithEndpoint(otlpEndpoint)
+	return otlptracehttp.New(ctx, insecureOpt, endpointOpt)
 }
