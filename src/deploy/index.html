@@ -215,33 +215,142 @@
 </head>
 <body>
     <header>
-        <h1>{{.User.Name}}</h1>
+        <h1>Liam Bryant</h1>
     </header>
     <div class="container">
         <div class="profile">
-            <img src="{{.User.AvatarURL}}" alt="{{.User.Name}}">
-            <h2>{{.User.Bio}}</h2>
-            <p>{{.User.Location}}</p>
+            <img src="https://avatars.githubusercontent.com/u/29678945?v=4" alt="Liam Bryant">
+            <h2>Learning every day, if you have any suggestions they are welcome</h2>
+            <p>Rome, Italy</p>
         </div>
         <div class="section">
             <h2>Projects</h2>
             <div class="projects">
-                {{range .Repos}}
-                <a href="{{.HTMLURL}}" target="_blank" class="project">
-                    <h3>{{.Name}}</h3>
-                    <p>{{.Description}}</p>
+                
+                <a href="https://github.com/laiambryant/buddy_allocator_bitmap" target="_blank" class="project">
+                    <h3>buddy_allocator_bitmap</h3>
+                    <p>A buddy allocator written in C that uses a bitmap for bookkeeping purposes.</p>
                     <div class="stats">
-                        <div><i class="fas fa-star"></i> {{.StargazersCount}}</div>
-                        <div><i class="fas fa-code-branch"></i> {{.ForksCount}}</div>
-                        <div><i class="fas fa-code"></i> {{.Language}}</div>
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> C</div>
                     </div>
                     <div class="topics">
-                        {{range .Topics}}
-                        <span>{{.}}</span>
-                        {{end}}
+                        
+                        <span>allocators</span>
+                        
+                        <span>c</span>
+                        
+                        <span>memory</span>
+                        
                     </div>
                 </a>
-                {{end}}
+                
+                <a href="https://github.com/laiambryant/gameboy_emulator" target="_blank" class="project">
+                    <h3>gameboy_emulator</h3>
+                    <p>A Gameboy emulator written in C using SDL3. Supports games in MBC1, MBC2 and MBC3 cartridge memory configurations</p>
+                    <div class="stats">
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> C</div>
+                    </div>
+                    <div class="topics">
+                        
+                        <span>c</span>
+                        
+                        <span>gameboy-emulator</span>
+                        
+                        <span>sdl3</span>
+                        
+                    </div>
+                </a>
+                
+                <a href="https://github.com/laiambryant/iDeliveryBot_srv" target="_blank" class="project">
+                    <h3>iDeliveryBot_srv</h3>
+                    <p>ROS nodes that handle pick and delivery for a robot, implemented using C&#43;&#43; and Node.js</p>
+                    <div class="stats">
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> C&#43;&#43;</div>
+                    </div>
+                    <div class="topics">
+                        
+                        <span>cpp</span>
+                        
+                        <span>node</span>
+                        
+                        <span>nodejs</span>
+                        
+                        <span>python</span>
+                        
+                        <span>ros</span>
+                        
+                        <span>server</span>
+                        
+                    </div>
+                </a>
+                
+                <a href="https://github.com/laiambryant/iDelivery_bot_client" target="_blank" class="project">
+                    <h3>iDelivery_bot_client</h3>
+                    <p>An iOS client for the iDeliveryBot app</p>
+                    <div class="stats">
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> Swift</div>
+                    </div>
+                    <div class="topics">
+                        
+                        <span>apple</span>
+                        
+                        <span>ios</span>
+                        
+                        <span>mvvm</span>
+                        
+                        <span>swift</span>
+                        
+                    </div>
+                </a>
+                
+                <a href="https://github.com/laiambryant/TwitterBot" target="_blank" class="project">
+                    <h3>TwitterBot</h3>
+                    <p>A simple Twitter bot (with a chatroom to keep users entertained while they tweet) that uses Twitter API, node, mogoDB and Websocket</p>
+                    <div class="stats">
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> JavaScript</div>
+                    </div>
+                    <div class="topics">
+                        
+                        <span>api</span>
+                        
+                        <span>bot</span>
+                        
+                        <span>nodejs</span>
+                        
+                        <span>restful-api</span>
+                        
+                        <span>twitter</span>
+                        
+                    </div>
+                </a>
+                
+                <a href="https://github.com/laiambryant/ubiquitous-eye" target="_blank" class="project">
+                    <h3>ubiquitous-eye</h3>
+                    <p>A small portfollio application in go that fetches data from the github api used to test opentelemetry</p>
+                    <div class="stats">
+                        <div><i class="fas fa-star"></i> 0</div>
+                        <div><i class="fas fa-code-branch"></i> 0</div>
+                        <div><i class="fas fa-code"></i> Go</div>
+                    </div>
+                    <div class="topics">
+                        
+                        <span>go</span>
+                        
+                        <span>opentelemetry-go</span>
+                        
+                    </div>
+                </a>
+                
             </div>
         </div>
         <div class="section">
@@ -253,11 +362,11 @@
                 </div>
                 <div class="contact-item">
                     <h3>GitHub</h3>
-                    <p><a href="{{.User.HTMLURL}}" target="_blank">{{.User.HTMLURL}}</a></p>
+                    <p><a href="https://github.com/laiambryant" target="_blank">https://github.com/laiambryant</a></p>
                 </div>
                 <div class="contact-item">
                     <h3>Location</h3>
-                    <p>{{.User.Location}}</p>
+                    <p>Rome, Italy</p>
                 </div>
             </div>
         </div>
