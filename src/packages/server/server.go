@@ -27,7 +27,6 @@ func RunServer() {
 	if srvErr != nil && srvErr != http.ErrServerClosed {
 		log.Fatal(srvErr)
 	}
-
 }
 
 func getHttpOtelHandler() http.Handler {
