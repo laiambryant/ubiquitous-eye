@@ -17,4 +17,4 @@ COPY ./src .
 
 RUN go build -o /go/bin/app .
 
-ENTRYPOINT ["/go/bin/app"]
+ENTRYPOINT ["/go/bin/app", "server-mode"]
