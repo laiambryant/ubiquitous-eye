@@ -13,7 +13,6 @@ func RootController(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Failed to load data", http.StatusInternalServerError)
 	}
-
 	data := struct {
 		User  response.UserAPIResponse
 		Repos []response.UserRepoApiResponse
@@ -21,7 +20,6 @@ func RootController(w http.ResponseWriter, r *http.Request) {
 		User:  user,
 		Repos: repos,
 	}
-
 	tmpl := template.Must(template.ParseFiles(utils.INDEX_HTML_PATH))
 	_ = tmpl.Execute(w, data)
 }

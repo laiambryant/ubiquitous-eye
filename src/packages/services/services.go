@@ -87,8 +87,6 @@ func CreateDeploySite() {
 		User:  user,
 		Repos: repos,
 	}
-
-	// Create file in the deploy folder
 	file, err := os.Create("../docs/index.html")
 	if err != nil {
 		log.Fatal("Cannot create file", err)

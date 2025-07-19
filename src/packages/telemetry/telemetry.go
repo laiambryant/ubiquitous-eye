@@ -17,13 +17,10 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 )
 
-var (
-	otlpEndpoint string
-)
+var otlpEndpoint string
 
 func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, err error) {
 	var shutdownFuncs []func(context.Context) error
-
 	shutdown = func(ctx context.Context) error {
 		var err error
 		for _, fn := range shutdownFuncs {
@@ -32,11 +29,9 @@ func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, er
 		shutdownFuncs = nil
 		return err
 	}
-
 	handleErr := func(inErr error) {
 		err = errors.Join(inErr, shutdown(ctx))
 	}
-
 	prop := newPropagator()
 	otel.SetTextMapPropagator(prop)
 	exporter, err := newExporter(ctx)
@@ -50,7 +45,6 @@ func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, er
 	}
 	shutdownFuncs = append(shutdownFuncs, tracerProvider.Shutdown)
 	otel.SetTracerProvider(tracerProvider)
-
 	meterProvider, err := newMeterProvider()
 	if err != nil {
 		handleErr(err)
@@ -58,7 +52,6 @@ func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, er
 	}
 	shutdownFuncs = append(shutdownFuncs, meterProvider.Shutdown)
 	otel.SetMeterProvider(meterProvider)
-
 	loggerProvider, err := newLoggerProvider()
 	if err != nil {
 		handleErr(err)
@@ -66,7 +59,6 @@ func SetupOTelSDK(ctx context.Context) (shutdown func(context.Context) error, er
 	}
 	shutdownFuncs = append(shutdownFuncs, loggerProvider.Shutdown)
 	global.SetLoggerProvider(loggerProvider)
-
 	return
 }
 
@@ -90,7 +82,6 @@ func newMeterProvider() (*metric.MeterProvider, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	meterProvider := metric.NewMeterProvider(
 		metric.WithReader(metric.NewPeriodicReader(metricExporter,
 			metric.WithInterval(3*time.Second))),
@@ -103,7 +94,6 @@ func newLoggerProvider() (*log.LoggerProvider, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	loggerProvider := log.NewLoggerProvider(
 		log.WithProcessor(log.NewBatchProcessor(logExporter)),
 	)

@@ -11,9 +11,11 @@ import (
 )
 
 func main() {
+	print("Starting Ubiquitous Eye\n")
 	if os.Args != nil {
 		if len(os.Args) > 1 {
 			if os.Args[1] == "server-mode" {
+				print("Starting server mode\n")
 				ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 				defer stop()
 				otelShutdown, err := telemetry.SetupOTelSDK(ctx)
@@ -31,5 +33,4 @@ func main() {
 			print("Deploy site created")
 		}
 	}
-
 }
