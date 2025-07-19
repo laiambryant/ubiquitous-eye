@@ -1,40 +1,36 @@
 package services
 
 import (
+	"embed"
 	"encoding/json"
 	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	"ubiquitous-eye/packages/model/response"
-	"ubiquitous-eye/packages/utils"
+
+	"github.com/laiambryant/ubiquitous-eye/packages/model/response"
+	"github.com/laiambryant/ubiquitous-eye/packages/utils"
 )
 
-func GetData() (response.UserAPIResponse, []response.UserRepoApiResponse, error) {
-	user, err := getUserData()
-	if err != nil {
-		return response.UserAPIResponse{}, []response.UserRepoApiResponse{}, err
-	}
-	user_repo, err := getUserRepoData()
-	if err != nil {
-		return response.UserAPIResponse{}, []response.UserRepoApiResponse{}, err
-	}
-	if utils.DEBUG {
-		printUserData(user, user_repo)
-	}
-	return user, user_repo, nil
+//go:embed resources/index.html
+var indexHTML embed.FS
+
+func GetData() (*response.UserAPIResponse, []response.UserRepoApiResponse, error) {
+	user, _ := getUserData()
+	userRepo, _ := getUserRepoData()
+	return &user, userRepo, nil
 }
 
 func getUserData() (response.UserAPIResponse, error) {
 	var user response.UserAPIResponse
-	user_resp, err := http.Get(utils.GITHUB_USER_LBRYANT)
+	userResp, err := http.Get(utils.GITHUB_USER_LBRYANT)
 	if err != nil {
 		log.Print(err)
 		return response.UserAPIResponse{}, err
 	}
-	defer user_resp.Body.Close()
-	str, err := io.ReadAll(user_resp.Body)
+	defer userResp.Body.Close()
+	str, err := io.ReadAll(userResp.Body)
 	if err != nil {
 		log.Print(err)
 		return response.UserAPIResponse{}, err
@@ -49,12 +45,12 @@ func getUserData() (response.UserAPIResponse, error) {
 
 func getUserRepoData() ([]response.UserRepoApiResponse, error) {
 	var usrRep []response.UserRepoApiResponse
-	user_project_resp, err := http.Get(utils.GITHUB_USER_LBRYANT + "/repos")
+	userProjectResp, err := http.Get(utils.GITHUB_USER_LBRYANT + "/repos")
 	if err != nil {
 		log.Print(err)
 		return []response.UserRepoApiResponse{}, err
 	}
-	str, err := io.ReadAll(user_project_resp.Body)
+	str, err := io.ReadAll(userProjectResp.Body)
 	if err != nil {
 		log.Print(err)
 		return []response.UserRepoApiResponse{}, err
@@ -67,34 +63,44 @@ func getUserRepoData() ([]response.UserRepoApiResponse, error) {
 	return usrRep, nil
 }
 
-func printUserData(user response.UserAPIResponse, repos []response.UserRepoApiResponse) {
-	log.Printf("User: %v\n", user)
-	for _, repo := range repos {
-		log.Printf("Repo: %+v\n", repo)
-	}
-}
-
-func CreateDeploySite() {
+func RenderSite(w io.Writer) error {
 	user, repos, err := GetData()
 	if err != nil {
-		log.Fatal("Failed to load data", err)
-		return
+		return err
 	}
 	data := struct {
-		User  response.UserAPIResponse
+		User  *response.UserAPIResponse
 		Repos []response.UserRepoApiResponse
 	}{
 		User:  user,
 		Repos: repos,
 	}
-	file, err := os.Create("../docs/index.html")
+
+	tmpl := template.Must(template.ParseFS(indexHTML, "resources/index.html"))
+	return tmpl.Execute(w, data)
+}
+
+func CreateDeploySite() {
+	user, repos, err := GetData()
 	if err != nil {
-		log.Fatal("Cannot create file", err)
+		log.Fatal("Failed to get data:", err)
+	}
+	data := struct {
+		User  *response.UserAPIResponse
+		Repos []response.UserRepoApiResponse
+	}{
+		User:  user,
+		Repos: repos,
+	}
+	file, err := os.Create(utils.DEPLOYABLE_SITE_URI)
+	if err != nil {
+		log.Fatal("Cannot create file:", err)
 	}
 	defer file.Close()
-	tmpl := template.Must(template.ParseFiles(utils.INDEX_HTML_PATH))
-	_ = tmpl.Execute(file, data)
+
+	tmpl := template.Must(template.ParseFS(indexHTML, "resources/index.html"))
+	err = tmpl.Execute(file, data)
 	if err != nil {
-		log.Fatal("Cannot execute template", err)
+		log.Fatal("Cannot execute template:", err)
 	}
 }

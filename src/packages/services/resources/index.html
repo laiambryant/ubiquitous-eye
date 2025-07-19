@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Liam Bryant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="{{.User.AvatarURL}}">
+    <style>
+        :root {
+            --primary-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --secondary-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent-primary: #00d4aa;
+            --accent-secondary: #0ea5e9;
+            --shadow-light: rgba(0, 212, 170, 0.1);
+            --shadow-medium: rgba(0, 212, 170, 0.2);
+            --shadow-heavy: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        /* Glass morphism base components */
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-heavy);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 24px var(--shadow-heavy);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--glass-bg), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px var(--shadow-medium);
+            border-color: rgba(0, 212, 170, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-header {
+            background: linear-gradient(45deg, var(--text-primary), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .accent-gradient {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+        }
+        /* Header styles */
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        /* Layout components */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0 6rem 0;
+        }
+
+        /* Profile section */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            transform: translateY(0);
+        }
+
+        .profile-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow-medium);
+        }
+
+        .profile-avatar {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            box-shadow: 0 8px 32px var(--shadow-medium);
+            border: 3px solid rgba(0, 212, 170, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1rem;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+            border-color: var(--accent-primary);
+        }
+
+        .profile-bio {
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .profile-location {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        /* Section components */
+        .content-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 0;
+        }
+
+        .projects-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 0;
+        }
+        /* Project and contact card components */
+        .project-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            flex: 1 1 calc(33.333% - 1rem);
+            min-width: 320px;
+        }
+
+        .contact-card {
+            display: block;
+        }
+
+        .card-title {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-link {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+        /* Project stats component */
+        .project-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 1.5rem 0 1rem 0;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            background: var(--secondary-bg);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-icon {
+            margin-right: 0.5rem;
+            color: var(--accent-secondary);
+        }
+
+        /* Topics component */
+        .topics-container {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .topic-tag {
+            background: linear-gradient(45deg, rgba(0, 212, 170, 0.2), rgba(14, 165, 233, 0.2));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 12px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .topic-tag:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(45deg, rgba(0, 212, 170, 0.3), rgba(14, 165, 233, 0.3));
+            border-color: var(--accent-primary);
+        }
+        /* Footer component */
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .footer-text {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1rem 0 6rem 0;
+            }
+            .header {
+                margin: 0.5rem;
+                padding: 1.5rem 0;
+            }
+            .header-title {
+                font-size: 2.2rem;
+            }
+            .grid-layout {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .projects-layout {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .project-card {
+                flex: 1 1 100%;
+                min-width: unset;
+            }
+            .profile-section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header glass-container">
+        <h1 class="header-title gradient-text-header">{{.User.Name}}</h1>
+    </header>
+    <div class="container">
+        <div class="profile-section glass-container">
+            <img src="{{.User.AvatarURL}}" alt="{{.User.Name}}" class="profile-avatar">
+            <h2 class="profile-bio">{{.User.Bio}}</h2>
+            <p class="profile-location">{{.User.Location}}</p>
+        </div>
+        <div class="content-section">
+            <h2 class="section-title gradient-text">Projects</h2>
+            <div class="projects-layout">
+                {{range .Repos}}
+                <a href="{{.HTMLURL}}" target="_blank" class="project-card glass-card">
+                    <h3 class="card-title">{{.Name}}</h3>
+                    <p class="card-description">{{.Description}}</p>
+                    <div class="project-stats">
+                        <div class="stat-item"><i class="fas fa-star stat-icon"></i> {{.StargazersCount}}</div>
+                        <div class="stat-item"><i class="fas fa-code-branch stat-icon"></i> {{.ForksCount}}</div>
+                        <div class="stat-item"><i class="fas fa-code stat-icon"></i> {{.Language}}</div>
+                    </div>
+                    <div class="topics-container">
+                        {{range .Topics}}
+                        <span class="topic-tag">{{.}}</span>
+                        {{end}}
+                    </div>
+                </a>
+                {{end}}
+            </div>
+        </div>
+        <div class="content-section">
+            <h2 class="section-title gradient-text">Contact</h2>
+            <div class="grid-layout">
+                <div class="contact-card glass-card">
+                    <h3 class="card-title">Email</h3>
+                    <p class="card-description">liambryant@outlook.it</p>
+                </div>
+                <div class="contact-card glass-card">
+                    <h3 class="card-title">GitHub</h3>
+                    <p class="card-description"><a href="{{.User.HTMLURL}}" target="_blank" class="card-link">{{.User.HTMLURL}}</a></p>
+                </div>
+                <div class="contact-card glass-card">
+                    <h3 class="card-title">Location</h3>
+                    <p class="card-description">{{.User.Location}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer glass-container">
+        <p class="footer-text">&copy; 2025 Liam Bryant. All rights reserved.</p>
+    </footer>
+    <script>
+        // Add smooth entrance animations
+        window.addEventListener('load', () => {
+            const elements = document.querySelectorAll('.profile-section, .glass-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Add subtle parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            document.querySelector('body::before').style.transform = `translateY(${rate}px)`;
+        });
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
