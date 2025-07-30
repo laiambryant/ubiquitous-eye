@@ -21,7 +21,7 @@ func TestCreateDeploySite(t *testing.T) {
 }
 
 func TestRenderSite(t *testing.T) {
-	if err := RenderSite(os.Stdout); err != nil {
+	if err := RenderSite(os.Stdout, utils.DEPLOYABLE_SITE_URI_TEST); err != nil {
 		t.Errorf("RenderSite should not return an error: %v", err)
 	}
 }

@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log/slog"
+	"os"
+
 	"github.com/laiambryant/ubiquitous-eye/packages/logger"
 	"github.com/laiambryant/ubiquitous-eye/packages/services"
 	"github.com/laiambryant/ubiquitous-eye/packages/utils"
@@ -8,5 +11,9 @@ import (
 
 func main() {
 	logger.ConfigureLogger()
-	services.CreateDeploySite(utils.DEPLOYABLE_SITE_URI)
+	err := services.CreateDeploySite(utils.DEPLOYABLE_SITE_URI)
+	if err != nil {
+		slog.Error(err.Error())
+		os.Exit(1)
+	}
 }
