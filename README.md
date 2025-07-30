@@ -7,7 +7,7 @@
 
 A simple Go application that generates a static portfolio website from GitHub user data. Fetches your GitHub profile and repositories to create a responsive portfolio page with light/dark mode theming.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -78,5 +78,3 @@ The generated `docs/index.html` can be deployed to:
 - Local web server
 
 ---
-
-⭐ **Star this repository if you find it helpful!**
