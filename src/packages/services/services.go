@@ -80,7 +80,7 @@ func RenderSite(w io.Writer) error {
 	return tmpl.Execute(w, data)
 }
 
-func CreateDeploySite() {
+func CreateDeploySite(location string) {
 	user, repos, err := GetData()
 	if err != nil {
 		log.Fatal("Failed to get data:", err)
@@ -92,7 +92,7 @@ func CreateDeploySite() {
 		User:  user,
 		Repos: repos,
 	}
-	file, err := os.Create(utils.DEPLOYABLE_SITE_URI)
+	file, err := os.Create(location)
 	if err != nil {
 		log.Fatal("Cannot create file:", err)
 	}
