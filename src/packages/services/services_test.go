@@ -8,15 +8,22 @@ import (
 )
 
 func TestCreateDeploySite(t *testing.T) {
-	wd, _ := os.Getwd()
-	file, err := os.Stat(wd + "/" + utils.DEPLOYABLE_SITE_URI_TEST)
+	targetPath := utils.GetDeployableSiteURI()
+
+	file, err := os.Stat(targetPath)
 	if err != nil {
-		t.Errorf("File %s/%s should always exist %v", wd, utils.DEPLOYABLE_SITE_URI_TEST, err)
+		t.Errorf("File %s should always exist %v", targetPath, err)
 		return
 	}
-	CreateDeploySite(utils.DEPLOYABLE_SITE_URI_TEST)
-	if updatedFile, err := os.Stat(utils.DEPLOYABLE_SITE_URI_TEST); err != nil || updatedFile.ModTime().Equal(file.ModTime()) {
-		t.Errorf("The file should exist")
+
+	err = CreateDeploySite(targetPath)
+	if err != nil {
+		t.Errorf("CreateDeploySite should not return an error: %v", err)
+		return
+	}
+
+	if updatedFile, err := os.Stat(targetPath); err != nil || updatedFile.ModTime().Equal(file.ModTime()) {
+		t.Errorf("The file should exist and be updated")
 	}
 }
 

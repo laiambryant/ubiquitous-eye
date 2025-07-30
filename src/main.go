@@ -11,7 +11,7 @@ import (
 
 func main() {
 	logger.ConfigureLogger()
-	err := services.CreateDeploySite(utils.DEPLOYABLE_SITE_URI)
+	err := services.CreateDeploySite(utils.GetDeployableSiteURI())
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(1)
