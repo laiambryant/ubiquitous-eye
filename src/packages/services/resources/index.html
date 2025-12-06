@@ -4,433 +4,372 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Liam Bryant</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="shortcut icon" type="image/x-icon" href="{{.User.AvatarURL}}">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-            --secondary-bg: rgba(255, 255, 255, 0.03);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --accent-primary: #00d4aa;
-            --accent-secondary: #0ea5e9;
-            --shadow-light: rgba(0, 212, 170, 0.1);
-            --shadow-medium: rgba(0, 212, 170, 0.2);
-            --shadow-heavy: rgba(0, 0, 0, 0.3);
+            --sky-blue-light: #8ecae6;
+            --blue-green: #219ebc;
+            --deep-space-blue: #023047;
+            --amber-flame: #ffb703;
+            --princeton-orange: #fb8500;
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--primary-bg);
-            color: var(--text-primary);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 100vh;
+            font-family: 'Courier New', 'Courier', monospace;
+            background-color: #FFFFFF;
+            color: var(--deep-space-blue);
+            line-height: 1.6;
+            font-size: 16px;
             overflow-x: hidden;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        /* Glass morphism base components */
-        .glass-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px var(--shadow-heavy);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 24px var(--shadow-heavy);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .header {
+            background-color: var(--deep-space-blue);
+            color: #FFFFFF;
+            padding: 60px 20px;
+            border-bottom: 12px solid var(--princeton-orange);
             position: relative;
             overflow: hidden;
         }
 
-        .glass-card::before {
+        .header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, var(--glass-bg), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background-color: var(--amber-flame);
+            opacity: 0.1;
+            transform: rotate(45deg);
         }
 
-        .glass-card:hover::before {
-            opacity: 1;
+        .header h1 {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            position: relative;
+            z-index: 1;
         }
 
-        .glass-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px var(--shadow-medium);
-            border-color: rgba(0, 212, 170, 0.3);
+        .profile {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+            padding: 80px 0;
+            border-bottom: 4px solid var(--deep-space-blue);
+            align-items: start;
         }
 
-        .gradient-text {
-            background: linear-gradient(45deg, var(--text-primary), var(--accent-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .profile-image {
+            position: relative;
         }
 
-        .gradient-text-header {
-            background: linear-gradient(45deg, var(--text-primary), rgba(255, 255, 255, 0.8));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .profile-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 8px solid var(--deep-space-blue);
+            box-shadow: 12px 12px 0 var(--princeton-orange);
         }
 
-        .accent-gradient {
-            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
-        }
-        /* Header styles */
-        .header {
-            padding: 2rem 0;
-            text-align: center;
-            margin: 1rem;
+        .profile-info {
+            padding-top: 20px;
         }
 
-        .header-title {
-            margin: 0;
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        /* Layout components */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 0 6rem 0;
+        .profile-info h2 {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border-left: 8px solid var(--princeton-orange);
+            padding-left: 20px;
         }
 
-        /* Profile section */
-        .profile-section {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2.5rem;
-            transform: translateY(0);
+        .profile-info p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.8;
         }
 
-        .profile-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--shadow-medium);
+        .profile-info .location {
+            display: inline-block;
+            background-color: var(--deep-space-blue);
+            color: #FFFFFF;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            border: 3px solid var(--deep-space-blue);
         }
 
-        .profile-avatar {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            box-shadow: 0 8px 32px var(--shadow-medium);
-            border: 3px solid rgba(0, 212, 170, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 1rem;
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 40px var(--shadow-medium);
-            border-color: var(--accent-primary);
-        }
-
-        .profile-bio {
-            margin: 1rem 0 0.5rem 0;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .profile-location {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin: 0;
-        }
-        /* Section components */
-        .content-section {
-            margin: 3rem 0;
+        .section {
+            padding: 80px 0;
+            border-bottom: 4px solid var(--deep-space-blue);
         }
 
         .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
+            font-size: 48px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
         }
 
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            padding: 0;
-        }
-
-        .projects-layout {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            padding: 0;
-        }
-        /* Project and contact card components */
-        .project-card {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            flex: 1 1 calc(33.333% - 1rem);
-            min-width: 320px;
-        }
-
-        .contact-card {
-            display: block;
-        }
-
-        .card-title {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .card-description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .card-link {
-            color: var(--accent-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .card-link:hover {
-            color: var(--accent-primary);
-            text-decoration: underline;
-        }
-        /* Project stats component */
-        .project-stats {
-            display: flex;
-            justify-content: space-between;
-            margin: 1.5rem 0 1rem 0;
-            gap: 1rem;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            background: var(--secondary-bg);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 0.8rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            border: 1px solid var(--glass-border);
-        }
-
-        .stat-icon {
-            margin-right: 0.5rem;
-            color: var(--accent-secondary);
-        }
-
-        /* Topics component */
-        .topics-container {
-            margin-top: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .topic-tag {
-            background: linear-gradient(45deg, rgba(0, 212, 170, 0.2), rgba(14, 165, 233, 0.2));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 170, 0.3);
-            border-radius: 12px;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-
-        .topic-tag:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(45deg, rgba(0, 212, 170, 0.3), rgba(14, 165, 233, 0.3));
-            border-color: var(--accent-primary);
-        }
-        /* Footer component */
-        .footer {
-            text-align: center;
-            padding: 1.5rem 0;
-            position: fixed;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
             width: 100%;
-            bottom: 0;
+            height: 8px;
+            background-color: var(--princeton-orange);
         }
 
-        .footer-text {
-            margin: 0;
-            font-size: 1rem;
-            color: var(--text-secondary);
+        .projects {
+            display: grid;
+            gap: 40px;
         }
-        
-        /* Responsive design */
+
+        .project {
+            background-color: #FFFFFF;
+            border: 6px solid var(--deep-space-blue);
+            padding: 40px;
+            position: relative;
+        }
+
+        .project::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            background-color: var(--princeton-orange);
+            z-index: -1;
+        }
+
+        .project h3 {
+            font-size: 28px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--deep-space-blue);
+        }
+
+        .project-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .project-meta span {
+            background-color: var(--blue-green);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border: 2px solid var(--blue-green);
+        }
+
+        .project-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .project-topics span {
+            background-color: #FFFFFF;
+            border: 2px solid var(--deep-space-blue);
+            padding: 6px 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .project a {
+            display: inline-block;
+            background-color: var(--deep-space-blue);
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 3px solid var(--deep-space-blue);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .project a:hover {
+            background-color: var(--princeton-orange);
+            border-color: var(--princeton-orange);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-item {
+            background-color: var(--deep-space-blue);
+            color: #FFFFFF;
+            padding: 40px;
+            border: 6px solid var(--deep-space-blue);
+            position: relative;
+        }
+
+        .contact-item::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: -8px;
+            bottom: -8px;
+            border: 6px solid var(--amber-flame);
+            z-index: -1;
+        }
+
+        .contact-item h3 {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: var(--amber-flame);
+        }
+
+        .contact-item p {
+            font-size: 16px;
+            word-break: break-word;
+        }
+
+        .contact-item a {
+            color: var(--sky-blue-light);
+            text-decoration: underline;
+            text-decoration-color: var(--amber-flame);
+            text-decoration-thickness: 2px;
+        }
+
+        .contact-item a:hover {
+            color: var(--amber-flame);
+            text-decoration-color: var(--sky-blue-light);
+        }
+
+        .footer {
+            background-color: var(--deep-space-blue);
+            color: #FFFFFF;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 1rem 0 6rem 0;
-            }
-            .header {
-                margin: 0.5rem;
-                padding: 1.5rem 0;
-            }
-            .header-title {
-                font-size: 2.2rem;
-            }
-            .grid-layout {
+            .profile {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 40px;
             }
-            .projects-layout {
-                flex-direction: column;
-                gap: 1rem;
+
+            .profile-image {
+                max-width: 300px;
+                margin: 0 auto;
             }
-            .project-card {
-                flex: 1 1 100%;
-                min-width: unset;
+
+            .section-title {
+                font-size: 36px;
             }
-            .profile-section {
-                padding: 1.5rem;
-                margin-bottom: 2rem;
+
+            .contact-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header glass-container">
-        <h1 class="header-title gradient-text-header">{{.User.Name}}</h1>
-    </header>
-    <div class="container">
-        <div class="profile-section glass-container">
-            <img src="{{.User.AvatarURL}}" alt="{{.User.Name}}" class="profile-avatar">
-            <h2 class="profile-bio">{{.User.Bio}}</h2>
-            <p class="profile-location">{{.User.Location}}</p>
+    <header class="header">
+        <div class="container">
+            <h1>{{.User.Name}}</h1>
         </div>
-        <div class="content-section">
-            <h2 class="section-title gradient-text">Projects</h2>
-            <div class="projects-layout">
+    </header>
+
+    <div class="container">
+        <section class="profile">
+            <div class="profile-image">
+                <img src="{{.User.AvatarURL}}" alt="{{.User.Name}}">
+            </div>
+            <div class="profile-info">
+                <h2>About</h2>
+                <p>{{.User.Bio}}</p>
+                <span class="location">{{.User.Location}}</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects">
                 {{range .Repos}}
-                <a href="{{.HTMLURL}}" target="_blank" class="project-card glass-card">
-                    <h3 class="card-title">{{.Name}}</h3>
-                    <p class="card-description">{{.Description}}</p>
-                    <div class="project-stats">
-                        <div class="stat-item"><i class="fas fa-star stat-icon"></i> {{.StargazersCount}}</div>
-                        <div class="stat-item"><i class="fas fa-code-branch stat-icon"></i> {{.ForksCount}}</div>
-                        <div class="stat-item"><i class="fas fa-code stat-icon"></i> {{.Language}}</div>
+                <article class="project">
+                    <h3>{{.Name}}</h3>
+                    <p class="project-description">{{.Description}}</p>
+                    <div class="project-meta">
+                        <span>Stars: {{.StargazersCount}}</span>
+                        <span>Forks: {{.ForksCount}}</span>
+                        <span>{{.Language}}</span>
                     </div>
-                    <div class="topics-container">
-                        {{range .Topics}}
-                        <span class="topic-tag">{{.}}</span>
-                        {{end}}
+                    {{if .Topics}}
+                    <div class="project-topics">
+                        {{range .Topics}}<span>{{.}}</span>{{end}}
                     </div>
-                </a>
+                    {{end}}
+                    <a href="{{.HTMLURL}}" target="_blank" rel="noopener noreferrer">View Project</a>
+                </article>
                 {{end}}
             </div>
-        </div>
-        <div class="content-section">
-            <h2 class="section-title gradient-text">Contact</h2>
-            <div class="grid-layout">
-                <div class="contact-card glass-card">
-                    <h3 class="card-title">Email</h3>
-                    <p class="card-description">liambryant@outlook.it</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>liambryant@outlook.it</p>
                 </div>
-                <div class="contact-card glass-card">
-                    <h3 class="card-title">GitHub</h3>
-                    <p class="card-description"><a href="{{.User.HTMLURL}}" target="_blank" class="card-link">{{.User.HTMLURL}}</a></p>
+                <div class="contact-item">
+                    <h3>GitHub</h3>
+                    <p><a href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">{{.User.HTMLURL}}</a></p>
                 </div>
-                <div class="contact-card glass-card">
-                    <h3 class="card-title">Location</h3>
-                    <p class="card-description">{{.User.Location}}</p>
+                <div class="contact-item">
+                    <h3>Location</h3>
+                    <p>{{.User.Location}}</p>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-    <footer class="footer glass-container">
-        <p class="footer-text">&copy; 2025 Liam Bryant. All rights reserved.</p>
+
+    <footer class="footer">
+        &copy; 2025 Liam Bryant. All rights reserved.
     </footer>
-    <script>
-        // Add smooth entrance animations
-        window.addEventListener('load', () => {
-            const elements = document.querySelectorAll('.profile-section, .glass-card');
-            elements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                setTimeout(() => {
-                    el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
-
-        // Add subtle parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-            document.querySelector('body::before').style.transform = `translateY(${rate}px)`;
-        });
-
-        // Add intersection observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards for scroll animations
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.glass-card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                observer.observe(card);
-            });
-        });
-    </script>
 </body>
 </html>
