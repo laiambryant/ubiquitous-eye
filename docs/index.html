@@ -3,485 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Liam Bryant</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --sky-blue-light: #8ecae6;
-            --blue-green: #219ebc;
-            --deep-space-blue: #023047;
-            --amber-flame: #ffb703;
-            --princeton-orange: #fb8500;
-        }
-
-        body {
-            font-family: 'Courier New', 'Courier', monospace;
-            background-color: #FFFFFF;
-            color: var(--deep-space-blue);
-            line-height: 1.6;
-            font-size: 16px;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header {
-            background-color: var(--deep-space-blue);
-            color: #FFFFFF;
-            padding: 60px 20px;
-            border-bottom: 12px solid var(--princeton-orange);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background-color: var(--amber-flame);
-            opacity: 0.1;
-            transform: rotate(45deg);
-        }
-
-        .header h1 {
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 60px;
-            padding: 80px 0;
-            border-bottom: 4px solid var(--deep-space-blue);
-            align-items: start;
-        }
-
-        .profile-image {
-            position: relative;
-        }
-
-        .profile-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border: 8px solid var(--deep-space-blue);
-            box-shadow: 12px 12px 0 var(--princeton-orange);
-        }
-
-        .profile-info {
-            padding-top: 20px;
-        }
-
-        .profile-info h2 {
-            font-size: 32px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            border-left: 8px solid var(--princeton-orange);
-            padding-left: 20px;
-        }
-
-        .profile-info p {
-            font-size: 18px;
-            margin-bottom: 15px;
-            line-height: 1.8;
-        }
-
-        .profile-info .location {
-            display: inline-block;
-            background-color: var(--deep-space-blue);
-            color: #FFFFFF;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-weight: bold;
-            border: 3px solid var(--deep-space-blue);
-        }
-
-        .section {
-            padding: 80px 0;
-            border-bottom: 4px solid var(--deep-space-blue);
-        }
-
-        .section-title {
-            font-size: 48px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 60px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background-color: var(--princeton-orange);
-        }
-
-        .projects {
-            display: grid;
-            gap: 40px;
-        }
-
-        .project {
-            background-color: #FFFFFF;
-            border: 6px solid var(--deep-space-blue);
-            padding: 40px;
-            position: relative;
-        }
-
-        .project::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            background-color: var(--princeton-orange);
-            z-index: -1;
-        }
-
-        .project h3 {
-            font-size: 28px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            color: var(--deep-space-blue);
-        }
-
-        .project-description {
-            font-size: 16px;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .project-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .project-meta span {
-            background-color: var(--blue-green);
-            color: #FFFFFF;
-            padding: 8px 16px;
-            border: 2px solid var(--blue-green);
-        }
-
-        .project-topics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .project-topics span {
-            background-color: #FFFFFF;
-            border: 2px solid var(--deep-space-blue);
-            padding: 6px 12px;
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .project a {
-            display: inline-block;
-            background-color: var(--deep-space-blue);
-            color: #FFFFFF;
-            text-decoration: none;
-            padding: 15px 30px;
-            font-weight: 900;
-            text-transform: uppercase;
-            border: 3px solid var(--deep-space-blue);
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        .project a:hover {
-            background-color: var(--princeton-orange);
-            border-color: var(--princeton-orange);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .contact-item {
-            background-color: var(--deep-space-blue);
-            color: #FFFFFF;
-            padding: 40px;
-            border: 6px solid var(--deep-space-blue);
-            position: relative;
-        }
-
-        .contact-item::after {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            right: -8px;
-            bottom: -8px;
-            border: 6px solid var(--amber-flame);
-            z-index: -1;
-        }
-
-        .contact-item h3 {
-            font-size: 24px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            color: var(--amber-flame);
-        }
-
-        .contact-item p {
-            font-size: 16px;
-            word-break: break-word;
-        }
-
-        .contact-item a {
-            color: var(--sky-blue-light);
-            text-decoration: underline;
-            text-decoration-color: var(--amber-flame);
-            text-decoration-thickness: 2px;
-        }
-
-        .contact-item a:hover {
-            color: var(--amber-flame);
-            text-decoration-color: var(--sky-blue-light);
-        }
-
-        .footer {
-            background-color: var(--deep-space-blue);
-            color: #FFFFFF;
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .profile {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .profile-image {
-                max-width: 300px;
-                margin: 0 auto;
-            }
-
-            .section-title {
-                font-size: 36px;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>Liam Bryant | Portfolio</title>
+    <meta name="description" content="The world calls them idiots. But not one in a thousand has the innocence to deserve that name.">
+    <meta property="og:title" content="Liam Bryant | Portfolio">
+    <meta property="og:description" content="The world calls them idiots. But not one in a thousand has the innocence to deserve that name.">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/29678945?v=4">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/site.css?v=local">
 </head>
-<body>
-    <header class="header">
-        <div class="container">
-            <h1>Liam Bryant</h1>
+<body data-theme="light">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="top">
+        <div class="container header-content">
+            <a class="logo" href="#top">Liam Bryant</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" data-theme-toggle>
+                Toggle theme
+            </button>
         </div>
     </header>
 
-    <div class="container">
-        <section class="profile">
-            <div class="profile-image">
-                <img src="https://avatars.githubusercontent.com/u/29678945?v=4" alt="Liam Bryant">
-            </div>
-            <div class="profile-info">
-                <h2>About</h2>
-                <p>The world calls them idiots. But not one in a thousand has the innocence to deserve that name.</p>
-                <span class="location">Rome, Italy</span>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects">
-                
-                <article class="project">
-                    <h3>buddy_allocator_bitmap</h3>
-                    <p class="project-description">A buddy allocator written in C that uses a bitmap for bookkeeping purposes.</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>C</span>
+    <main id="main">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">Software Engineer</p>
+                    <h1>Liam Bryant</h1>
+                    <div class="hero-actions">
+                        <a class="button primary" href="https://github.com/laiambryant" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a class="button ghost" href="mailto:liambryant@outlook.it">Email</a>
                     </div>
-                    
-                    <div class="project-topics">
-                        <span>allocators</span><span>c</span><span>memory</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/buddy_allocator_bitmap" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>gameboy_emulator</h3>
-                    <p class="project-description">A Gameboy emulator written in C using SDL3. Supports games in MBC1, MBC2 and MBC3 cartridge memory configurations</p>
-                    <div class="project-meta">
-                        <span>Stars: 1</span>
-                        <span>Forks: 0</span>
-                        <span>C</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>c</span><span>gameboy-emulator</span><span>sdl3</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/gameboy_emulator" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>gotestplus</h3>
-                    <p class="project-description">Testing utilities for the go programming language</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>Go</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>golang</span><span>testing-tools</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/gotestplus" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>heart_pirates_nvim</h3>
-                    <p class="project-description">My personal Hearts Pirates inspired neovim configuration</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>Python</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>lua</span><span>neovim</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/heart_pirates_nvim" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>iDeliveryBot_srv</h3>
-                    <p class="project-description">ROS nodes that handle pick and delivery for a robot, implemented using C&#43;&#43; and Node.js</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>C&#43;&#43;</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>cpp</span><span>node</span><span>nodejs</span><span>python</span><span>ros</span><span>server</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/iDeliveryBot_srv" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>telemetry-ingestor</h3>
-                    <p class="project-description">CLI application to ingest OTLP data from json files</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>Go</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>cobra-cli</span><span>golang</span><span>opentelemetry</span><span>otlp</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/telemetry-ingestor" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>TwitterBot</h3>
-                    <p class="project-description">A simple Twitter bot (with a chatroom to keep users entertained while they tweet) that uses Twitter API, node, mogoDB and Websocket</p>
-                    <div class="project-meta">
-                        <span>Stars: 1</span>
-                        <span>Forks: 0</span>
-                        <span>JavaScript</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>api</span><span>bot</span><span>nodejs</span><span>restful-api</span><span>twitter</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/TwitterBot" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-                <article class="project">
-                    <h3>ubiquitous-eye</h3>
-                    <p class="project-description">A small portfollio application in go that fetches data from the github api used to test opentelemetry</p>
-                    <div class="project-meta">
-                        <span>Stars: 0</span>
-                        <span>Forks: 0</span>
-                        <span>HTML</span>
-                    </div>
-                    
-                    <div class="project-topics">
-                        <span>go</span><span>opentelemetry-go</span>
-                    </div>
-                    
-                    <a href="https://github.com/laiambryant/ubiquitous-eye" target="_blank" rel="noopener noreferrer">View Project</a>
-                </article>
-                
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">Contact</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <h3>Email</h3>
-                    <p>liambryant@outlook.it</p>
+                    <dl class="hero-stats">
+                        <div>
+                            <dt>Repos</dt>
+                            <dd>9</dd>
+                        </div>
+                        <div>
+                            <dt>Location</dt>
+                            <dd>Rome, Italy</dd>
+                        </div>
+                    </dl>
                 </div>
-                <div class="contact-item">
-                    <h3>GitHub</h3>
-                    <p><a href="https://github.com/laiambryant" target="_blank" rel="noopener noreferrer">https://github.com/laiambryant</a></p>
-                </div>
-                <div class="contact-item">
-                    <h3>Location</h3>
-                    <p>Rome, Italy</p>
+                <div class="hero-card">
+                    <img src="https://avatars.githubusercontent.com/u/29678945?v=4" alt="Portrait of Liam Bryant" width="360" height="360" loading="eager">
                 </div>
             </div>
         </section>
-    </div>
 
-    <footer class="footer">
-        &copy; 2025 Liam Bryant. All rights reserved.
+        <section class="section projects" id="projects">
+            <div class="container">
+                <div class="projects-shell">
+                    <div class="projects-header">
+                        <div class="section-heading">
+                            <p class="eyebrow">Projects</p>
+                            <h2>Selected work and experiments.</h2>
+                        </div>
+                        <div class="projects-summary">
+                            <span data-project-count>9</span> repositories
+                        </div>
+                    </div>
+
+                    <div class="projects-toolbar" data-project-toolbar>
+                        <label>
+                            Search
+                            <input type="search" placeholder="Search projects" data-project-search>
+                        </label>
+                        <label>
+                            Language
+                            <select data-filter-language>
+                                <option value="all">All</option>
+                            </select>
+                        </label>
+                        <label>
+                            Topic
+                            <select data-filter-topic>
+                                <option value="all">All</option>
+                            </select>
+                        </label>
+                        <label>
+                            Sort
+                            <select data-project-sort>
+                                <option value="name-asc">Name (A-Z)</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="projects-grid" data-project-grid>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="C"
+                        data-topics="allocators,c,memory"
+                    >
+                        <div class="project-header">
+                            <h3>buddy_allocator_bitmap</h3>
+                        </div>
+                        <p class="project-description">A buddy allocator written in C that uses a bitmap for bookkeeping purposes.</p>
+                        <div class="project-meta">
+                            <span>C</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>allocators</span><span>c</span><span>memory</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/buddy_allocator_bitmap" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="C"
+                        data-topics="c,gameboy-emulator,sdl3"
+                    >
+                        <div class="project-header">
+                            <h3>gameboy_emulator</h3>
+                        </div>
+                        <p class="project-description">A Gameboy emulator written in C using SDL3. Supports games in MBC1, MBC2 and MBC3 cartridge memory configurations</p>
+                        <div class="project-meta">
+                            <span>C</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>c</span><span>gameboy-emulator</span><span>sdl3</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/gameboy_emulator" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="Go"
+                        data-topics="golang,testing-tools"
+                    >
+                        <div class="project-header">
+                            <h3>gotestplus</h3>
+                        </div>
+                        <p class="project-description">Testing utilities for the go programming language</p>
+                        <div class="project-meta">
+                            <span>Go</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>golang</span><span>testing-tools</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/gotestplus" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="Python"
+                        data-topics="lua,neovim"
+                    >
+                        <div class="project-header">
+                            <h3>heart_pirates_nvim</h3>
+                        </div>
+                        <p class="project-description">My personal Hearts Pirates inspired neovim configuration</p>
+                        <div class="project-meta">
+                            <span>Python</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>lua</span><span>neovim</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/heart_pirates_nvim" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="C&#43;&#43;"
+                        data-topics="cpp,node,nodejs,python,ros,server"
+                    >
+                        <div class="project-header">
+                            <h3>iDeliveryBot_srv</h3>
+                        </div>
+                        <p class="project-description">ROS nodes that handle pick and delivery for a robot, implemented using C&#43;&#43; and Node.js</p>
+                        <div class="project-meta">
+                            <span>C&#43;&#43;</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>cpp</span><span>node</span><span>nodejs</span><span>python</span><span>ros</span><span>server</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/iDeliveryBot_srv" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="Go"
+                        data-topics=""
+                    >
+                        <div class="project-header">
+                            <h3>tcgdex</h3>
+                        </div>
+                        <p class="project-description">TCGDex Go SDK</p>
+                        <div class="project-meta">
+                            <span>Go</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/tcgdex" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="Go"
+                        data-topics="cobra-cli,golang,opentelemetry,otlp"
+                    >
+                        <div class="project-header">
+                            <h3>telemetry-ingestor</h3>
+                        </div>
+                        <p class="project-description">CLI application to ingest OTLP data from json files</p>
+                        <div class="project-meta">
+                            <span>Go</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>cobra-cli</span><span>golang</span><span>opentelemetry</span><span>otlp</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/telemetry-ingestor" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="JavaScript"
+                        data-topics="api,bot,nodejs,restful-api,twitter"
+                    >
+                        <div class="project-header">
+                            <h3>TwitterBot</h3>
+                        </div>
+                        <p class="project-description">A simple Twitter bot (with a chatroom to keep users entertained while they tweet) that uses Twitter API, node, mogoDB and Websocket</p>
+                        <div class="project-meta">
+                            <span>JavaScript</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>api</span><span>bot</span><span>nodejs</span><span>restful-api</span><span>twitter</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/TwitterBot" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    <article
+                        class="project-card reveal"
+                        data-project-card
+                        data-language="Go"
+                        data-topics="go,opentelemetry-go"
+                    >
+                        <div class="project-header">
+                            <h3>ubiquitous-eye</h3>
+                        </div>
+                        <p class="project-description">A small portfollio application in go that fetches data from the github api used to test opentelemetry</p>
+                        <div class="project-meta">
+                            <span>Go</span>
+                            <span>Forks 0</span>
+                            
+                        </div>
+                        
+                        <div class="project-topics">
+                            <span>go</span><span>opentelemetry-go</span>
+                        </div>
+                        
+                        <a class="button link" href="https://github.com/laiambryant/ubiquitous-eye" target="_blank" rel="noopener noreferrer">View project</a>
+                    </article>
+                    
+                    </div>
+                    <p class="empty-state" data-empty-state hidden>No projects match the current filters.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section contact" id="contact">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Contact</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <p><a href="mailto:liambryant@outlook.it">liambryant@outlook.it</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>GitHub</h3>
+                        <p><a href="https://github.com/laiambryant" target="_blank" rel="noopener noreferrer">https://github.com/laiambryant</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Location</h3>
+                        <p>Rome, Italy</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <span>Last build local</span>
+            <span>&copy; 2026 Liam Bryant</span>
+            <a href="#top">Back to top</a>
+        </div>
     </footer>
+
+    <script src="assets/site.js?v=local" defer></script>
 </body>
 </html>
