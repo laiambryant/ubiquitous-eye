@@ -8,12 +8,14 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"path/filepath"
+	"time"
 
 	"github.com/laiambryant/ubiquitous-eye/packages/model/response"
 	"github.com/laiambryant/ubiquitous-eye/packages/utils"
 )
 
-//go:embed resources/index.html
+//go:embed resources/index.html resources/site.css resources/site.js
 var indexHTML embed.FS
 
 func GetData() (*response.UserAPIResponse, []response.UserRepoApiResponse, error) {
@@ -69,11 +71,15 @@ func RenderSite(w io.Writer, location string) error {
 		return err
 	}
 	data := struct {
-		User  *response.UserAPIResponse
-		Repos []response.UserRepoApiResponse
+		User     *response.UserAPIResponse
+		Repos    []response.UserRepoApiResponse
+		Year     int
+		BuildSHA string
 	}{
-		User:  user,
-		Repos: repos,
+		User:     user,
+		Repos:    repos,
+		Year:     time.Now().Year(),
+		BuildSHA: utils.GetBuildSHA(),
 	}
 
 	tmpl := template.Must(template.ParseFS(indexHTML, location))
@@ -87,11 +93,15 @@ func CreateDeploySite(location string) error {
 		return err
 	}
 	data := struct {
-		User  *response.UserAPIResponse
-		Repos []response.UserRepoApiResponse
+		User     *response.UserAPIResponse
+		Repos    []response.UserRepoApiResponse
+		Year     int
+		BuildSHA string
 	}{
-		User:  user,
-		Repos: repos,
+		User:     user,
+		Repos:    repos,
+		Year:     time.Now().Year(),
+		BuildSHA: utils.GetBuildSHA(),
 	}
 	file, err := os.Create(location)
 	if err != nil {
@@ -100,6 +110,12 @@ func CreateDeploySite(location string) error {
 	}
 	defer file.Close()
 
+	err = writeAssets(filepath.Dir(location))
+	if err != nil {
+		slog.Error("Cannot write assets:", "error", err)
+		return err
+	}
+
 	tmpl := template.Must(template.ParseFS(indexHTML, "resources/index.html"))
 	err = tmpl.Execute(file, data)
 	if err != nil {
@@ -107,4 +123,27 @@ func CreateDeploySite(location string) error {
 		return err
 	}
 	return nil
+}
+
+func writeAssets(outputDir string) error {
+	assetsDir := filepath.Join(outputDir, "assets")
+	err := os.MkdirAll(assetsDir, 0o755)
+	if err != nil {
+		return err
+	}
+
+	err = writeAssetFile(filepath.Join(assetsDir, "site.css"), "resources/site.css")
+	if err != nil {
+		return err
+	}
+
+	return writeAssetFile(filepath.Join(assetsDir, "site.js"), "resources/site.js")
+}
+
+func writeAssetFile(outputPath, sourcePath string) error {
+	asset, err := indexHTML.ReadFile(sourcePath)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(outputPath, asset, 0o644)
 }
