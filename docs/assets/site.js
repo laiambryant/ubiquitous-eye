@@ -58,8 +58,13 @@ const applyFilters = (cards, state) => {
 
 const sortCards = (cards, sortBy) => {
     const sorted = [...cards];
-    if (sortBy === "name-asc") {
-        sorted.sort((a, b) => a.querySelector("h3").textContent.localeCompare(b.querySelector("h3").textContent));
+    switch (sortBy) {
+        case "name-asc":
+            sorted.sort((a, b) => a.querySelector("h3").textContent.localeCompare(b.querySelector("h3").textContent));
+            break;
+        default:
+            sorted.sort((a, b) => new Date(b.dataset.updated) - new Date(a.dataset.updated));
+            break;
     }
     return sorted;
 };
@@ -80,7 +85,7 @@ const initProjects = () => {
         search: "",
         language: "all",
         topic: "all",
-        sort: "name-asc",
+        sort: "updated-desc",
     };
 
     buildFilterOptions(cards, languageFilter, (card) => [card.dataset.language]);

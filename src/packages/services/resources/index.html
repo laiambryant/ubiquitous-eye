@@ -12,7 +12,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/site.css?v={{.BuildSHA}}">
+    <title>{{.User.Name}} | Portfolio</title>
+    <meta name="description" content="{{.User.Bio}}">
+    <meta property="og:title" content="{{.User.Name}} | Portfolio">
+    <meta property="og:description" content="{{.User.Bio}}">
+    <meta property="og:image" content="{{.User.AvatarURL}}">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/site.css?v={{.BuildSHA}}">
 </head>
+<body data-theme="light">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="top">
+        <div class="container header-content">
+            <a class="logo" href="#top">{{.User.Name}}</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" data-theme-toggle>
+                Toggle theme
+            </button>
 <body data-theme="light">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" id="top">
@@ -35,6 +57,7 @@
                 <div class="hero-copy">
                     <p class="eyebrow">Software Engineer</p>
                     <h1>{{.User.Name}}</h1>
+                    <p class="lead">Based in {{.User.Location}}</p>
                     <div class="hero-actions">
                         <a class="button primary" href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">GitHub</a>
                         <a class="button ghost" href="mailto:liambryant@outlook.it">Email</a>
@@ -45,6 +68,10 @@
                             <dd>{{.User.PublicRepos}}</dd>
                         </div>
                         <div>
+                            <dt>Followers</dt>
+                            <dd>{{.User.Followers}}</dd>
+                        </div>
+                        <div>
                             <dt>Location</dt>
                             <dd>{{.User.Location}}</dd>
                         </div>
@@ -52,64 +79,90 @@
                 </div>
                 <div class="hero-card">
                     <img src="{{.User.AvatarURL}}" alt="Portrait of {{.User.Name}}" width="360" height="360" loading="eager">
+                    <div class="hero-card-meta">
+                        <span>Open Source</span>
+                        <span>Go</span>
+                        <span>Systems</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section about" id="about">
+            <div class="container about-grid">
+                <div class="section-heading">
+                    <p class="eyebrow">About</p>
+                    <h2>Building calm, durable software.</h2>
+                </div>
+                <div class="about-content">
+                    <p>{{.User.Bio}}</p>
+                    <div class="about-meta">
+                        <span>{{.User.Location}}</span>
+                        <span>{{.User.Company}}</span>
+                        {{if .User.Blog}}
+                        <a href="{{.User.Blog}}" target="_blank" rel="noopener noreferrer">{{.User.Blog}}</a>
+                        {{end}}
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="section projects" id="projects">
             <div class="container">
-                <div class="projects-shell">
-                    <div class="projects-header">
-                        <div class="section-heading">
-                            <p class="eyebrow">Projects</p>
-                            <h2>Selected work and experiments.</h2>
-                        </div>
-                        <div class="projects-summary">
-                            <span data-project-count>{{len .Repos}}</span> repositories
-                        </div>
+                <div class="projects-header">
+                    <div class="section-heading">
+                        <p class="eyebrow">Projects</p>
+                        <h2>Selected work and experiments.</h2>
                     </div>
-
-                    <div class="projects-toolbar" data-project-toolbar>
-                        <label>
-                            Search
-                            <input type="search" placeholder="Search projects" data-project-search>
-                        </label>
-                        <label>
-                            Language
-                            <select data-filter-language>
-                                <option value="all">All</option>
-                            </select>
-                        </label>
-                        <label>
-                            Topic
-                            <select data-filter-topic>
-                                <option value="all">All</option>
-                            </select>
-                        </label>
-                        <label>
-                            Sort
-                            <select data-project-sort>
-                                <option value="name-asc">Name (A-Z)</option>
-                            </select>
-                        </label>
+                    <div class="projects-summary">
+                        <span data-project-count>{{len .Repos}}</span> repositories
                     </div>
+                </div>
 
-                    <div class="projects-grid" data-project-grid>
+                <div class="projects-toolbar" data-project-toolbar>
+                    <label>
+                        Search
+                        <input type="search" placeholder="Search projects" data-project-search>
+                    </label>
+                    <label>
+                        Language
+                        <select data-filter-language>
+                            <option value="all">All</option>
+                        </select>
+                    </label>
+                    <label>
+                        Topic
+                        <select data-filter-topic>
+                            <option value="all">All</option>
+                        </select>
+                    </label>
+                    <label>
+                        Sort
+                        <select data-project-sort>
+                            <option value="updated-desc">Updated (newest)</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="projects-grid" data-project-grid>
                     {{range .Repos}}
                     <article
                         class="project-card reveal"
                         data-project-card
                         data-language="{{.Language}}"
                         data-topics="{{range $index, $topic := .Topics}}{{if $index}},{{end}}{{.}}{{end}}"
+                        data-updated="{{.UpdatedAt}}"
                     >
                         <div class="project-header">
                             <h3>{{.Name}}</h3>
+                            <span class="project-language">{{.Language}}</span>
                         </div>
                         <p class="project-description">{{.Description}}</p>
                         <div class="project-meta">
                             <span>{{.Language}}</span>
                             <span>Forks {{.ForksCount}}</span>
-                            
+                            <span>Updated {{.UpdatedAt}}</span>
                         </div>
                         {{if .Topics}}
                         <div class="project-topics">
@@ -119,9 +172,8 @@
                         <a class="button link" href="{{.HTMLURL}}" target="_blank" rel="noopener noreferrer">View project</a>
                     </article>
                     {{end}}
-                    </div>
-                    <p class="empty-state" data-empty-state hidden>No projects match the current filters.</p>
                 </div>
+                <p class="empty-state" data-empty-state hidden>No projects match the current filters.</p>
             </div>
         </section>
 
@@ -129,7 +181,27 @@
             <div class="container">
                 <div class="section-heading">
                     <p class="eyebrow">Contact</p>
+                    <h2>Lets build something memorable.</h2>
                 </div>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <p><a href="mailto:liambryant@outlook.it">liambryant@outlook.it</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>GitHub</h3>
+                        <p><a href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">{{.User.HTMLURL}}</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Location</h3>
+                        <p>{{.User.Location}}</p>
+                    </div>
+                    {{if .User.TwitterUsername}}
+                    <div class="contact-card">
+                        <h3>Twitter</h3>
+                        <p><a href="https://twitter.com/{{.User.TwitterUsername}}" target="_blank" rel="noopener noreferrer">@{{.User.TwitterUsername}}</a></p>
+                    </div>
+                    {{end}}
                 <div class="contact-grid">
                     <div class="contact-card">
                         <h3>Email</h3>
@@ -160,7 +232,17 @@
             <span>&copy; {{.Year}} {{.User.Name}}</span>
             <a href="#top">Back to top</a>
         </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <span>Last build {{.BuildSHA}}</span>
+            <span>&copy; {{.Year}} {{.User.Name}}</span>
+            <a href="#top">Back to top</a>
+        </div>
     </footer>
+
+    <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 
     <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 </body>
