@@ -35,6 +35,19 @@
             <button class="theme-toggle" type="button" data-theme-toggle>
                 Toggle theme
             </button>
+<body data-theme="light">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="top">
+        <div class="container header-content">
+            <a class="logo" href="#top">{{.User.Name}}</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" data-theme-toggle>
+                Toggle theme
+            </button>
         </div>
     </header>
 
@@ -189,6 +202,25 @@
                         <p><a href="https://twitter.com/{{.User.TwitterUsername}}" target="_blank" rel="noopener noreferrer">@{{.User.TwitterUsername}}</a></p>
                     </div>
                     {{end}}
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <p><a href="mailto:liambryant@outlook.it">liambryant@outlook.it</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>GitHub</h3>
+                        <p><a href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">{{.User.HTMLURL}}</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Location</h3>
+                        <p>{{.User.Location}}</p>
+                    </div>
+                    {{if .User.TwitterUsername}}
+                    <div class="contact-card">
+                        <h3>Twitter</h3>
+                        <p><a href="https://twitter.com/{{.User.TwitterUsername}}" target="_blank" rel="noopener noreferrer">@{{.User.TwitterUsername}}</a></p>
+                    </div>
+                    {{end}}
                 </div>
             </div>
         </section>
@@ -200,7 +232,17 @@
             <span>&copy; {{.Year}} {{.User.Name}}</span>
             <a href="#top">Back to top</a>
         </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <span>Last build {{.BuildSHA}}</span>
+            <span>&copy; {{.Year}} {{.User.Name}}</span>
+            <a href="#top">Back to top</a>
+        </div>
     </footer>
+
+    <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 
     <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 </body>
