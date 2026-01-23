@@ -35,7 +35,6 @@
                 <div class="hero-copy">
                     <p class="eyebrow">Software Engineer</p>
                     <h1>{{.User.Name}}</h1>
-                    <p class="lead">Based in {{.User.Location}}</p>
                     <div class="hero-actions">
                         <a class="button primary" href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">GitHub</a>
                         <a class="button ghost" href="mailto:liambryant@outlook.it">Email</a>
@@ -46,10 +45,6 @@
                             <dd>{{.User.PublicRepos}}</dd>
                         </div>
                         <div>
-                            <dt>Followers</dt>
-                            <dd>{{.User.Followers}}</dd>
-                        </div>
-                        <div>
                             <dt>Location</dt>
                             <dd>{{.User.Location}}</dd>
                         </div>
@@ -57,90 +52,64 @@
                 </div>
                 <div class="hero-card">
                     <img src="{{.User.AvatarURL}}" alt="Portrait of {{.User.Name}}" width="360" height="360" loading="eager">
-                    <div class="hero-card-meta">
-                        <span>Open Source</span>
-                        <span>Go</span>
-                        <span>Systems</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section about" id="about">
-            <div class="container about-grid">
-                <div class="section-heading">
-                    <p class="eyebrow">About</p>
-                    <h2>Building calm, durable software.</h2>
-                </div>
-                <div class="about-content">
-                    <p>{{.User.Bio}}</p>
-                    <div class="about-meta">
-                        <span>{{.User.Location}}</span>
-                        <span>{{.User.Company}}</span>
-                        {{if .User.Blog}}
-                        <a href="{{.User.Blog}}" target="_blank" rel="noopener noreferrer">{{.User.Blog}}</a>
-                        {{end}}
-                    </div>
                 </div>
             </div>
         </section>
 
         <section class="section projects" id="projects">
             <div class="container">
-                <div class="projects-header">
-                    <div class="section-heading">
-                        <p class="eyebrow">Projects</p>
-                        <h2>Selected work and experiments.</h2>
+                <div class="projects-shell">
+                    <div class="projects-header">
+                        <div class="section-heading">
+                            <p class="eyebrow">Projects</p>
+                            <h2>Selected work and experiments.</h2>
+                        </div>
+                        <div class="projects-summary">
+                            <span data-project-count>{{len .Repos}}</span> repositories
+                        </div>
                     </div>
-                    <div class="projects-summary">
-                        <span data-project-count>{{len .Repos}}</span> repositories
+
+                    <div class="projects-toolbar" data-project-toolbar>
+                        <label>
+                            Search
+                            <input type="search" placeholder="Search projects" data-project-search>
+                        </label>
+                        <label>
+                            Language
+                            <select data-filter-language>
+                                <option value="all">All</option>
+                            </select>
+                        </label>
+                        <label>
+                            Topic
+                            <select data-filter-topic>
+                                <option value="all">All</option>
+                            </select>
+                        </label>
+                        <label>
+                            Sort
+                            <select data-project-sort>
+                                <option value="name-asc">Name (A-Z)</option>
+                            </select>
+                        </label>
                     </div>
-                </div>
 
-                <div class="projects-toolbar" data-project-toolbar>
-                    <label>
-                        Search
-                        <input type="search" placeholder="Search projects" data-project-search>
-                    </label>
-                    <label>
-                        Language
-                        <select data-filter-language>
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label>
-                        Topic
-                        <select data-filter-topic>
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label>
-                        Sort
-                        <select data-project-sort>
-                            <option value="updated-desc">Updated (newest)</option>
-                            <option value="name-asc">Name (A-Z)</option>
-                        </select>
-                    </label>
-                </div>
-
-                <div class="projects-grid" data-project-grid>
+                    <div class="projects-grid" data-project-grid>
                     {{range .Repos}}
                     <article
                         class="project-card reveal"
                         data-project-card
                         data-language="{{.Language}}"
                         data-topics="{{range $index, $topic := .Topics}}{{if $index}},{{end}}{{.}}{{end}}"
-                        data-updated="{{.UpdatedAt}}"
                     >
                         <div class="project-header">
                             <h3>{{.Name}}</h3>
-                            <span class="project-language">{{.Language}}</span>
                         </div>
                         <p class="project-description">{{.Description}}</p>
                         <div class="project-meta">
                             <span>{{.Language}}</span>
                             <span>Forks {{.ForksCount}}</span>
-                            <span>Updated {{.UpdatedAt}}</span>
+                            
                         </div>
                         {{if .Topics}}
                         <div class="project-topics">
@@ -150,8 +119,9 @@
                         <a class="button link" href="{{.HTMLURL}}" target="_blank" rel="noopener noreferrer">View project</a>
                     </article>
                     {{end}}
+                    </div>
+                    <p class="empty-state" data-empty-state hidden>No projects match the current filters.</p>
                 </div>
-                <p class="empty-state" data-empty-state hidden>No projects match the current filters.</p>
             </div>
         </section>
 
@@ -159,7 +129,6 @@
             <div class="container">
                 <div class="section-heading">
                     <p class="eyebrow">Contact</p>
-                    <h2>Lets build something memorable.</h2>
                 </div>
                 <div class="contact-grid">
                     <div class="contact-card">
