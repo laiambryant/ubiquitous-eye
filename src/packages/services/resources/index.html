@@ -46,10 +46,6 @@
                             <dd>{{.User.PublicRepos}}</dd>
                         </div>
                         <div>
-                            <dt>Followers</dt>
-                            <dd>{{.User.Followers}}</dd>
-                        </div>
-                        <div>
                             <dt>Location</dt>
                             <dd>{{.User.Location}}</dd>
                         </div>
@@ -70,10 +66,9 @@
             <div class="container about-grid">
                 <div class="section-heading">
                     <p class="eyebrow">About</p>
-                    <h2>Building calm, durable software.</h2>
+                    <h2>{{.User.Bio}}</h2>
                 </div>
                 <div class="about-content">
-                    <p>{{.User.Bio}}</p>
                     <div class="about-meta">
                         <span>{{.User.Location}}</span>
                         <span>{{.User.Company}}</span>
@@ -90,37 +85,11 @@
                 <div class="projects-header">
                     <div class="section-heading">
                         <p class="eyebrow">Projects</p>
-                        <h2>Selected work and experiments.</h2>
+                        <h2>Projects</h2>
                     </div>
                     <div class="projects-summary">
                         <span data-project-count>{{len .Repos}}</span> repositories
                     </div>
-                </div>
-
-                <div class="projects-toolbar" data-project-toolbar>
-                    <label>
-                        Search
-                        <input type="search" placeholder="Search projects" data-project-search>
-                    </label>
-                    <label>
-                        Language
-                        <select data-filter-language>
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label>
-                        Topic
-                        <select data-filter-topic>
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label>
-                        Sort
-                        <select data-project-sort>
-                            <option value="updated-desc">Updated (newest)</option>
-                            <option value="name-asc">Name (A-Z)</option>
-                        </select>
-                    </label>
                 </div>
 
                 <div class="projects-grid" data-project-grid>
