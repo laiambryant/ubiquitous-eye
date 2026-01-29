@@ -75,55 +75,16 @@ const initProjects = () => {
         return;
     }
     const cards = Array.from(grid.querySelectorAll("[data-project-card]"));
-    const search = document.querySelector("[data-project-search]");
-    const languageFilter = document.querySelector("[data-filter-language]");
-    const topicFilter = document.querySelector("[data-filter-topic]");
-    const sort = document.querySelector("[data-project-sort]");
-    const emptyState = document.querySelector("[data-empty-state]");
     const count = document.querySelector("[data-project-count]");
-    const state = {
-        search: "",
-        language: "all",
-        topic: "all",
-        sort: "updated-desc",
-    };
-
-    buildFilterOptions(cards, languageFilter, (card) => [card.dataset.language]);
-    buildFilterOptions(cards, topicFilter, (card) => (card.dataset.topics || "").split(","));
-
-    const refresh = () => {
-        const sorted = sortCards(cards, state.sort);
-        sorted.forEach((card) => grid.appendChild(card));
-        const visibleCount = applyFilters(sorted, state);
-        if (count) {
-            count.textContent = visibleCount;
-        }
-        if (emptyState) {
-            emptyState.hidden = visibleCount !== 0;
-        }
-    };
-
-    search.addEventListener("input", (event) => {
-        state.search = event.target.value.trim().toLowerCase();
-        refresh();
+    
+    // Show all cards since there are no filters
+    cards.forEach((card) => {
+        card.hidden = false;
     });
-
-    languageFilter.addEventListener("change", (event) => {
-        state.language = event.target.value;
-        refresh();
-    });
-
-    topicFilter.addEventListener("change", (event) => {
-        state.topic = event.target.value;
-        refresh();
-    });
-
-    sort.addEventListener("change", (event) => {
-        state.sort = event.target.value;
-        refresh();
-    });
-
-    refresh();
+    
+    if (count) {
+        count.textContent = cards.length;
+    }
 };
 
 const initReveal = () => {
