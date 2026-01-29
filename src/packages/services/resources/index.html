@@ -12,29 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/site.css?v={{.BuildSHA}}">
-    <title>{{.User.Name}} | Portfolio</title>
-    <meta name="description" content="{{.User.Bio}}">
-    <meta property="og:title" content="{{.User.Name}} | Portfolio">
-    <meta property="og:description" content="{{.User.Bio}}">
-    <meta property="og:image" content="{{.User.AvatarURL}}">
-    <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="assets/site.css?v={{.BuildSHA}}">
 </head>
-<body data-theme="light">
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header" id="top">
-        <div class="container header-content">
-            <a class="logo" href="#top">{{.User.Name}}</a>
-            <nav class="site-nav" aria-label="Primary">
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
-            <button class="theme-toggle" type="button" data-theme-toggle>
-                Toggle theme
-            </button>
 <body data-theme="light">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" id="top">
@@ -55,7 +33,7 @@
         <section class="hero">
             <div class="container hero-grid">
                 <div class="hero-copy">
-                    <p class="eyebrow">Software Engineer</p>
+                    <p class="eyebrow">Software Developer</p>
                     <h1>{{.User.Name}}</h1>
                     <p class="lead">Based in {{.User.Location}}</p>
                     <div class="hero-actions">
@@ -202,25 +180,6 @@
                         <p><a href="https://twitter.com/{{.User.TwitterUsername}}" target="_blank" rel="noopener noreferrer">@{{.User.TwitterUsername}}</a></p>
                     </div>
                     {{end}}
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <h3>Email</h3>
-                        <p><a href="mailto:liambryant@outlook.it">liambryant@outlook.it</a></p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>GitHub</h3>
-                        <p><a href="{{.User.HTMLURL}}" target="_blank" rel="noopener noreferrer">{{.User.HTMLURL}}</a></p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Location</h3>
-                        <p>{{.User.Location}}</p>
-                    </div>
-                    {{if .User.TwitterUsername}}
-                    <div class="contact-card">
-                        <h3>Twitter</h3>
-                        <p><a href="https://twitter.com/{{.User.TwitterUsername}}" target="_blank" rel="noopener noreferrer">@{{.User.TwitterUsername}}</a></p>
-                    </div>
-                    {{end}}
                 </div>
             </div>
         </section>
@@ -232,17 +191,7 @@
             <span>&copy; {{.Year}} {{.User.Name}}</span>
             <a href="#top">Back to top</a>
         </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container footer-content">
-            <span>Last build {{.BuildSHA}}</span>
-            <span>&copy; {{.Year}} {{.User.Name}}</span>
-            <a href="#top">Back to top</a>
-        </div>
     </footer>
-
-    <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 
     <script src="assets/site.js?v={{.BuildSHA}}" defer></script>
 </body>
