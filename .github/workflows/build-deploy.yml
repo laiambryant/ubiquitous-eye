@@ -1,9 +1,12 @@
-name: Build and Deploy
+name: Deploy site
 
 on:
   push:
     branches:
       - main
+  # Rebuild daily so new repositories and profile changes show up without a push.
+  schedule:
+    - cron: "17 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -11,47 +14,51 @@ permissions:
 
 concurrency:
   group: deploy-site
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: Fetch deploy branch
-        run: git fetch origin deploy
-
-      - name: Checkout deploy branch
-        run: git checkout -B deploy origin/deploy
-
-      - name: Merge main into deploy
-        run: git merge --no-edit origin/main
-
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
-          go-version: "1.21"
-          cache: true
-          cache-dependency-path: src/go.sum
+          go-version-file: src/go.mod
+          cache: false
 
-      - name: Run tests
+      - name: Test
         working-directory: src
         run: go test ./...
 
       - name: Generate site
         working-directory: src
-        run: go run main.go
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          go run .
+          -user laiambryant
+          -email liambryant@outlook.it
+          -role "Software Developer"
+          -out ../docs
 
-      - name: Commit generated site
+      # GitHub Pages serves /docs from the deploy branch. Each deploy commit is
+      # main's tree plus the freshly generated site, with both main and the
+      # previous deploy as parents, so the push is always a fast-forward.
+      - name: Publish to deploy branch
         run: |
+          git fetch origin deploy
           git add docs
-          if ! git diff --cached --quiet; then
-            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "chore(pages): regenerate site"
+          tree=$(git write-tree)
+          if [ "$tree" = "$(git rev-parse 'origin/deploy^{tree}')" ]; then
+            echo "Site unchanged, nothing to deploy."
+            exit 0
           fi
-
-      - name: Push deploy branch
-        run: git push origin deploy
+          commit=$(git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit-tree "$tree" -p origin/deploy -p HEAD -m "chore(pages): regenerate site")
+          git push origin "$commit:refs/heads/deploy"
